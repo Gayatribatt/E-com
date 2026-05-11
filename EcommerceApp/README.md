@@ -16,7 +16,7 @@ A fully-featured e-commerce web application built with ASP.NET Core 8 MVC.
 ## Tech Stack
 
 - ASP.NET Core 8 MVC
-- Entity Framework Core + SQLite (easily swappable to SQL Server)
+- Entity Framework Core +  SQL Server
 - ASP.NET Core Identity
 - Bootstrap 5 + Font Awesome 6
 - Stripe.net (payment processing)
