@@ -1,0 +1,38 @@
+<div class="layout" *ngIf="auth.isLoggedIn(); else publicLayout">
+  <aside class="sidebar">
+    <div class="brand">Activity Tracker</div>
+    <nav class="menu">
+      <a routerLink="/dashboard" routerLinkActive="active" *ngIf="auth.isAdmin()">Dashboard</a>
+      <a routerLink="/tasks" routerLinkActive="active">Tasks</a>
+      <a routerLink="/users" routerLinkActive="active" *ngIf="auth.isAdmin()">Users</a>
+      <a routerLink="/audit-logs" routerLinkActive="active" *ngIf="auth.isAdmin()">Audit Logs</a>
+    </nav>
+  </aside>
+
+  <section class="content-area">
+    <header class="topbar">
+      <div>
+        <h1>Analytics Workspace</h1>
+        <p>Track activities and audit history in one place</p>
+      </div>
+      <div class="session">
+        <span>{{ auth.getUsername() }}</span>
+        <button type="button" (click)="auth.logout()">Logout</button>
+      </div>
+    </header>
+
+    <main class="container">
+      <router-outlet />
+    </main>
+  </section>
+</div>
+
+<ng-template #publicLayout>
+  <header class="topbar public">
+    <div class="brand">Activity Tracker</div>
+    <button type="button" (click)="goToLogin()">Login</button>
+  </header>
+  <main class="container public">
+    <router-outlet />
+  </main>
+</ng-template>

@@ -1,0 +1,13 @@
+using ActivityTracker.Application.DTOs;
+using FluentValidation;
+
+namespace ActivityTracker.Application.Validators;
+
+public class UpsertTaskValidator : AbstractValidator<UpsertTaskDto>
+{
+    public UpsertTaskValidator()
+    {
+        RuleFor(x => x.Title).NotEmpty().MaximumLength(200);
+        RuleFor(x => x.Description).MaximumLength(2000);
+    }
+}

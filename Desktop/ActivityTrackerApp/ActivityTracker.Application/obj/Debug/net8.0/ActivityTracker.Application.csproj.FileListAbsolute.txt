@@ -1,0 +1,15 @@
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\bin\Debug\net8.0\ActivityTracker.Application.deps.json
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\bin\Debug\net8.0\ActivityTracker.Application.dll
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\bin\Debug\net8.0\ActivityTracker.Application.pdb
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\bin\Debug\net8.0\ActivityTracker.Domain.dll
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\bin\Debug\net8.0\ActivityTracker.Domain.pdb
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\ActivityTracker.Application.csproj.AssemblyReference.cache
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\ActivityTracker.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\ActivityTracker.Application.AssemblyInfoInputs.cache
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\ActivityTracker.Application.AssemblyInfo.cs
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\ActivityTracker.Application.csproj.CoreCompileInputs.cache
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\Activity.760A19BD.Up2Date
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\ActivityTracker.Application.dll
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\refint\ActivityTracker.Application.dll
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\ActivityTracker.Application.pdb
+C:\Users\Rentech\Desktop\ActivityTrackerApp\ActivityTracker.Application\obj\Debug\net8.0\ref\ActivityTracker.Application.dll

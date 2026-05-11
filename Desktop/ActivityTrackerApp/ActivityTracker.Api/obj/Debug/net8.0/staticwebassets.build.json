@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "POhmmzkHzhJF88M1Ca9XcSAC2w1xD5KXoCHbuiRa82o=",
+  "Source": "ActivityTracker.Api",
+  "BasePath": "_content/ActivityTracker.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

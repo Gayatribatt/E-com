@@ -1,0 +1,90 @@
+@model EcommerceApp.Models.Order
+@{
+    ViewData["Title"] = $"Order #{Model.OrderNumber}";
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index">My Orders</a></li>
+            <li class="breadcrumb-item active">Order #@Model.OrderNumber</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center bg-dark text-white">
+                    <span class="fw-bold">Order #@Model.OrderNumber</span>
+                    <span class="badge @(Model.Status == EcommerceApp.Models.OrderStatus.Delivered ? "bg-success" : Model.Status == EcommerceApp.Models.OrderStatus.Shipped ? "bg-info" : Model.Status == EcommerceApp.Models.OrderStatus.Cancelled ? "bg-danger" : "bg-warning text-dark") fs-6">
+                        @Model.Status
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">Placed on @Model.OrderDate.ToString("dddd, MMMM dd, yyyy")</p>
+
+                    <table class="table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-end">Price</th>
+                                <th class="text-end">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId" class="text-dark text-decoration-none fw-medium">
+                                            @item.Product?.Name
+                                        </a>
+                                    </td>
+                                    <td class="text-center">@item.Quantity</td>
+                                    <td class="text-end">$@item.UnitPrice.ToString("F2")</td>
+                                    <td class="text-end fw-bold">$@item.Subtotal.ToString("F2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr><td colspan="3" class="text-end">Subtotal</td><td class="text-end">$@Model.SubTotal.ToString("F2")</td></tr>
+                            <tr><td colspan="3" class="text-end">Shipping</td><td class="text-end">$@Model.ShippingCost.ToString("F2")</td></tr>
+                            <tr><td colspan="3" class="text-end">Tax</td><td class="text-end">$@Model.Tax.ToString("F2")</td></tr>
+                            <tr><td colspan="3" class="text-end fw-bold fs-5">Total</td><td class="text-end fw-bold fs-5 text-warning">$@Model.Total.ToString("F2")</td></tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Shipping Address</h6>
+                    <address class="text-muted mb-0">
+                        <strong>@Model.ShippingFirstName @Model.ShippingLastName</strong><br />
+                        @Model.ShippingAddress<br />
+                        @Model.ShippingCity, @Model.ShippingState @Model.ShippingZipCode<br />
+                        @Model.ShippingCountry
+                    </address>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.TrackingNumber))
+            {
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Tracking</h6>
+                        <p class="mb-0 text-muted">@Model.TrackingNumber</p>
+                    </div>
+                </div>
+            }
+
+            <a asp-action="Index" class="btn btn-outline-dark w-100">
+                <i class="fas fa-arrow-left me-2"></i>Back to Orders
+            </a>
+        </div>
+    </div>
+</div>
