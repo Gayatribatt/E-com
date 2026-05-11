@@ -1,0 +1,124 @@
+@model EcommerceApp.Models.Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Products" asp-action="Index">Shop</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Products" asp-action="Index" asp-route-categoryId="@Model.CategoryId">@Model.Category?.Name</a></li>
+            <li class="breadcrumb-item active">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5">
+        <!-- Product Image -->
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body bg-light d-flex align-items-center justify-content-center" style="height:400px;">
+                    <i class="fas fa-image fa-5x text-muted"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-md-7">
+            <span class="badge bg-warning text-dark mb-2">@Model.Category?.Name</span>
+            <h1 class="fw-bold mb-3">@Model.Name</h1>
+
+            <div class="mb-3">
+                <span class="display-6 fw-bold text-warning">$@Model.Price.ToString("F2")</span>
+                @if (Model.OriginalPrice.HasValue)
+                {
+                    <span class="text-muted text-decoration-line-through ms-3 fs-4">$@Model.OriginalPrice.Value.ToString("F2")</span>
+                    <span class="badge bg-danger ms-2">
+                        Save @Math.Round((1 - Model.Price / Model.OriginalPrice.Value) * 100)%
+                    </span>
+                }
+            </div>
+
+            <div class="mb-4">
+                @if (Model.StockQuantity > 10)
+                {
+                    <span class="badge bg-success fs-6 px-3 py-2"><i class="fas fa-check me-1"></i>In Stock (@Model.StockQuantity available)</span>
+                }
+                else if (Model.StockQuantity > 0)
+                {
+                    <span class="badge bg-warning text-dark fs-6 px-3 py-2"><i class="fas fa-exclamation-triangle me-1"></i>Only @Model.StockQuantity left!</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger fs-6 px-3 py-2">Out of Stock</span>
+                }
+            </div>
+
+            <p class="text-muted mb-4 fs-5">@Model.Description</p>
+
+            @if (Model.StockQuantity > 0)
+            {
+                <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mb-4">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <div class="d-flex gap-3 align-items-center mb-3">
+                        <label class="fw-bold">Qty:</label>
+                        <input type="number" name="quantity" value="1" min="1" max="@Model.StockQuantity" class="form-control w-auto" style="width:80px!important;" />
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-lg px-5 me-3">
+                        <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                    </button>
+                    <a asp-controller="Cart" asp-action="Index" class="btn btn-dark btn-lg px-4">
+                        <i class="fas fa-shopping-cart me-2"></i>View Cart
+                    </a>
+                </form>
+            }
+
+            <div class="border-top pt-4">
+                <div class="row g-3 text-center">
+                    <div class="col-4">
+                        <i class="fas fa-truck text-warning fs-4"></i>
+                        <p class="small text-muted mt-1">Free shipping over $50</p>
+                    </div>
+                    <div class="col-4">
+                        <i class="fas fa-undo text-warning fs-4"></i>
+                        <p class="small text-muted mt-1">30-day returns</p>
+                    </div>
+                    <div class="col-4">
+                        <i class="fas fa-shield-alt text-warning fs-4"></i>
+                        <p class="small text-muted mt-1">Secure checkout</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews -->
+    @if (Model.Reviews?.Any() == true)
+    {
+        <div class="mt-5">
+            <h3 class="fw-bold mb-4">Customer Reviews (@Model.Reviews.Count)</h3>
+            <div class="row g-3">
+                @foreach (var review in Model.Reviews.Take(5))
+                {
+                    <div class="col-md-6">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <strong>Anonymous</strong>
+                                    <div>
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="fas fa-star @(i <= review.Rating ? "text-warning" : "text-muted")"></i>
+                                        }
+                                    </div>
+                                </div>
+                                <p class="text-muted mb-0">@review.Comment</p>
+                                <small class="text-muted">@review.CreatedAt.ToString("MMMM dd, yyyy")</small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

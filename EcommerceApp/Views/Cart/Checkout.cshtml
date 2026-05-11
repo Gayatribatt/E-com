@@ -1,0 +1,159 @@
+@model EcommerceApp.Models.CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container py-4">
+    <h1 class="fw-bold mb-4"><i class="fas fa-lock me-2 text-warning"></i>Checkout</h1>
+
+    <div class="row g-4">
+        <!-- Form -->
+        <div class="col-lg-7">
+            <form asp-controller="Checkout" asp-action="PlaceOrder" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-4"><i class="fas fa-user me-2 text-warning"></i>Contact Information</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label fw-medium"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label fw-medium"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label fw-medium"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Phone" class="form-label fw-medium"></label>
+                                <input asp-for="Phone" class="form-control" />
+                                <span asp-validation-for="Phone" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-4"><i class="fas fa-map-marker-alt me-2 text-warning"></i>Shipping Address</h5>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label asp-for="Address" class="form-label fw-medium"></label>
+                                <input asp-for="Address" class="form-control" placeholder="Street address" />
+                                <span asp-validation-for="Address" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="City" class="form-label fw-medium"></label>
+                                <input asp-for="City" class="form-control" />
+                                <span asp-validation-for="City" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label asp-for="State" class="form-label fw-medium"></label>
+                                <input asp-for="State" class="form-control" />
+                                <span asp-validation-for="State" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label asp-for="ZipCode" class="form-label fw-medium"></label>
+                                <input asp-for="ZipCode" class="form-control" />
+                                <span asp-validation-for="ZipCode" class="text-danger small"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Country" class="form-label fw-medium"></label>
+                                <select asp-for="Country" class="form-select">
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="GB">United Kingdom</option>
+                                    <option value="IN">India</option>
+                                    <option value="AU">Australia</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-4"><i class="fas fa-credit-card me-2 text-warning"></i>Payment</h5>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>Payment integration with Stripe is configured. Add your Stripe keys in appsettings.json.
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-medium">Card Number</label>
+                                <input type="text" class="form-control" placeholder="1234 5678 9012 3456" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">Expiry Date</label>
+                                <input type="text" class="form-control" placeholder="MM/YY" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">CVV</label>
+                                <input type="text" class="form-control" placeholder="123" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <label asp-for="Notes" class="form-label fw-medium">Order Notes (Optional)</label>
+                <textarea asp-for="Notes" class="form-control mb-4" rows="2" placeholder="Any special instructions..."></textarea>
+
+                <button type="submit" class="btn btn-warning btn-lg w-100 py-3">
+                    <i class="fas fa-lock me-2"></i>Place Order — $@((Model.Cart?.Total + (Model.Cart?.Total >= 50 ? 0 : 9.99m) + Model.Cart?.Total * 0.08m)?.ToString("F2"))
+                </button>
+            </form>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm sticky-top" style="top:80px;">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-4">Your Order</h5>
+                    @if (Model.Cart != null)
+                    {
+                        @foreach (var item in Model.Cart.CartItems)
+                        {
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <span class="fw-medium">@item.Product?.Name</span>
+                                    <span class="badge bg-secondary ms-1">×@item.Quantity</span>
+                                </div>
+                                <span>$@item.Subtotal.ToString("F2")</span>
+                            </div>
+                        }
+                        <hr />
+                        <div class="d-flex justify-content-between text-muted mb-2">
+                            <span>Subtotal</span><span>$@Model.Cart.Total.ToString("F2")</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted mb-2">
+                            <span>Shipping</span>
+                            <span class="@(Model.Cart.Total >= 50 ? "text-success" : "")">
+                                @(Model.Cart.Total >= 50 ? "FREE" : "$9.99")
+                            </span>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted mb-2">
+                            <span>Tax</span><span>$@(Model.Cart.Total * 0.08m).ToString("F2")</span>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between fw-bold fs-5">
+                            <span>Total</span>
+                            <span class="text-warning">
+                                $@((Model.Cart.Total + (Model.Cart.Total >= 50 ? 0 : 9.99m) + Model.Cart.Total * 0.08m).ToString("F2"))
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

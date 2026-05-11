@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ShopWave</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" asp-controller="Home" asp-action="Index">
+                <i class="fas fa-shopping-bag me-2 text-warning"></i>ShopWave
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Products" asp-action="Index">Shop</a>
+                    </li>
+                </ul>
+                <form class="d-flex me-3" asp-controller="Products" asp-action="Index" method="get">
+                    <div class="input-group">
+                        <input class="form-control" type="search" name="search" placeholder="Search products..." />
+                        <button class="btn btn-warning" type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item me-2">
+                        <a class="btn btn-outline-warning position-relative" asp-controller="Cart" asp-action="Index">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge badge bg-warning text-dark position-absolute top-0 start-100 translate-middle rounded-pill">0</span>
+                        </a>
+                    </li>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i>@User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" asp-controller="Orders" asp-action="Index"><i class="fas fa-box me-2"></i>My Orders</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-warning ms-2" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-warning ms-2" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+                <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="bg-dark text-light py-5 mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h5 class="fw-bold text-warning"><i class="fas fa-shopping-bag me-2"></i>ShopWave</h5>
+                    <p class="text-muted">Your one-stop destination for quality products at great prices.</p>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="text-warning">Shop</h6>
+                    <ul class="list-unstyled text-muted">
+                        <li><a href="#" class="text-muted text-decoration-none">Electronics</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Clothing</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Books</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="text-warning">Help</h6>
+                    <ul class="list-unstyled text-muted">
+                        <li><a href="#" class="text-muted text-decoration-none">FAQ</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Returns</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Shipping</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-warning">Newsletter</h6>
+                    <div class="input-group">
+                        <input type="email" class="form-control bg-dark border-secondary text-light" placeholder="Your email" />
+                        <button class="btn btn-warning">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary mt-4" />
+            <p class="text-center text-muted mb-0">&copy; @DateTime.Now.Year ShopWave. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
